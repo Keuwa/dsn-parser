@@ -55,14 +55,16 @@ const remunerationNumeroContrat = 'S21.G00.51.010';
 const remunerationTypeBase = 'S21.G00.51.011';
 const remunerationMontantBase = 'S21.G00.51.013';
 
+var currentRemunerationNumeroContrat = ''
+
+
 // 78 BASE ASSUJETTIE
 const baseAssujettieCode = 'S21.G00.78.001';
 const baseAssujettiePeriode = 'S21.G00.78.002';
 const baseAssujettieBase = 'S21.G00.78.004';
-const baseAssujettieNumeroContrat = 'S21.G00.78.006';
+// const baseAssujettieNumeroContrat = 'S21.G00.78.006';
 
 var currentBaseAssujettiePeriode = ''
-var currentBaseAssujettieNumeroContrat = ''
 
 // 79 COMPOSANT BASE ASSUJETTIE
 const composantBase = 'S21.G00.79.001'
@@ -261,6 +263,9 @@ fs.createReadStream('data2.dsn')
     else if(data['code'] == remunerationNumeroContrat) {
       var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['remuneration'].length - 1
 
+      currentRemunerationNumeroContrat = data['value']
+
+
       results[currentMonth][currentEntreprise][currentEtablissement]['remuneration'][lastIndex]['numeroContrat'] = data['value']
     }
     else if(data['code'] == remunerationTypeBase) {
@@ -289,6 +294,7 @@ fs.createReadStream('data2.dsn')
         'siren': currentEntreprise,
         'nic': currentEtablissement,
         'numeroSS': currentSalariesNumeroSS,
+        'numeroContrat': currentRemunerationNumeroContrat,
         'codeBase': data['value'],
       })
     }
@@ -304,13 +310,11 @@ fs.createReadStream('data2.dsn')
 
       results[currentMonth][currentEntreprise][currentEtablissement]['baseAssujettie'][lastIndex]['base'] = data['value']
     }
-    else if(data['code'] == baseAssujettieNumeroContrat) {
-      var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['baseAssujettie'].length - 1
+    // else if(data['code'] == baseAssujettieNumeroContrat) {
+    //   var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['baseAssujettie'].length - 1
 
-      currentBaseAssujettieNumeroContrat = data['value']
-
-      results[currentMonth][currentEntreprise][currentEtablissement]['baseAssujettie'][lastIndex]['numeroContrat'] = data['value']
-    }
+    //   results[currentMonth][currentEntreprise][currentEtablissement]['baseAssujettie'][lastIndex]['numeroContrat'] = data['value']
+    // }
 
     /**
      * End Base Asujetti
@@ -328,7 +332,7 @@ fs.createReadStream('data2.dsn')
         'siren': currentEntreprise,
         'nic': currentEtablissement,
         'numeroSS': currentSalariesNumeroSS,
-        'numeroContrat': currentBaseAssujettieNumeroContrat,
+        'numeroContrat': currentRemunerationNumeroContrat,
         'periode': currentBaseAssujettiePeriode,
         'base': data['value'],
       })
@@ -356,7 +360,7 @@ fs.createReadStream('data2.dsn')
         'siren': currentEntreprise,
         'nic': currentEtablissement,
         'numeroSS': currentSalariesNumeroSS,
-        'numeroContrat': currentBaseAssujettieNumeroContrat,
+        'numeroContrat': currentRemunerationNumeroContrat,
         'periode': currentBaseAssujettiePeriode,
         'codeCotisation': data['value'],
       })
@@ -386,8 +390,6 @@ fs.createReadStream('data2.dsn')
   var baseAssujettie = []
   var composantBaseAssujettie = []
   var cotisationIndividuelle = []
-
-
 
   _.forEach(results, function(months){
     _.forEach(months, function(entreprise){
@@ -493,10 +495,6 @@ fs.createReadStream('data2.dsn')
     {id: 'cotisation', title: 'Cotisation'},
   ]
 
-
-
-
-
   writeRecords('results/' + currentMonth + '_' + currentEntreprise + '_versement.csv', versements, versementHeader);
   writeRecords('results/' + currentMonth + '_' + currentEntreprise + '_borderaux.csv', bordereaux, bordereauxHeader);
   writeRecords('results/' + currentMonth + '_' + currentEntreprise + '_cotisationAgregees.csv', cotisationAgregees, cotisationAgregeesHeader);
@@ -505,9 +503,7 @@ fs.createReadStream('data2.dsn')
   writeRecords('results/' + currentMonth + '_' + currentEntreprise + '_baseAssujettie.csv', baseAssujettie, baseAssujettieHeader);
   writeRecords('results/' + currentMonth + '_' + currentEntreprise + '_composantBaseAssujettie.csv', composantBaseAssujettie, composantBaseAssujettieHeader);
   writeRecords('results/' + currentMonth + '_' + currentEntreprise + '_cotisationIndividuelle.csv', cotisationIndividuelle, cotisationIndividuelleHeader);
-
 });
-
 
 function writeRecords(path, data, header){
   const csvWriter = createCsvWriter({
