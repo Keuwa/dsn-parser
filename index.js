@@ -46,6 +46,14 @@ const salariesNumeroContrat = 'S21.G00.40.009'
 const salariesHeuresReference = 'S21.G00.40.012'
 const salariesHeuresSalaries = 'S21.G00.40.013'
 const salariesTauxAt = 'S21.G00.40.043'
+// ADDED 17/05/2021
+const salariesDateDebutContrat = 'S21.G00.40.001'
+const salariesSatut = 'S21.G00.40.002'
+const salariesDispositif = 'S21.G00.40.008'
+const salariesDateFinPrevisionnelle = 'S21.G00.40.010'
+const salariesUniteMesure = 'S21.G00.40.011'
+const salariesModaliteTemps = 'S21.G00.40.014'
+
 
 var currentSalariesNumeroSS = ''
 
@@ -198,6 +206,9 @@ fs.createReadStream('data2.dsn')
       currentSalariesNumeroSS = data['value'];
 
       results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].push({
+        'mois': currentMonth,
+        'siren': currentEntreprise,
+        'nic': currentEtablissement,
         'numeroSS': data['value'],
       })
     }
@@ -241,6 +252,37 @@ fs.createReadStream('data2.dsn')
 
       results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['tauxAt'] = data['value']
     }
+    else if(data['code'] == salariesDateDebutContrat) {
+      var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
+
+      results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['dateDebutContrat'] = data['value']
+    }
+    else if(data['code'] == salariesSatut) {
+      var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
+
+      results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['statut'] = data['value']
+    }
+    else if(data['code'] == salariesDispositif) {
+      var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
+
+      results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['dispositif'] = data['value']
+    }
+    else if(data['code'] == salariesDateFinPrevisionnelle) {
+      var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
+
+      results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['dateFinPrevisionnelle'] = data['value']
+    }
+    else if(data['code'] == salariesUniteMesure) {
+      var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
+
+      results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['uniteMesure'] = data['value']
+    }
+    else if(data['code'] == salariesModaliteTemps) {
+      var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
+
+      results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['modaliteTemps'] = data['value']
+    }
+
     /**
      * END SALARIEs
      */
@@ -447,7 +489,22 @@ fs.createReadStream('data2.dsn')
     {id: 'heuresReference', title: 'HeuresRéf'},
     {id: 'heuresSalaries', title: 'HeuresSal'},
     {id: 'tauxAt', title: 'Taux AT'},
+
+    {id: 'dateDebutContrat', title: 'DateDebutContrat'},
+    {id: 'statut', title: 'Statut'},
+    {id: 'dispositif', title: 'Dispositif'},
+    {id: 'dateFinPrevisionnelle', title: 'DateFinPrevisionnelle'},
+    {id: 'uniteMesure', title: 'UniteMesure'},
+    {id: 'modaliteTemps', title: 'ModalitéTemps'},
   ]
+
+  const salariesDateDebutContrat = 'S21.G00.40.001'
+  const salariesSatut = 'S21.G00.40.002'
+  const salariesDispositif = 'S21.G00.40.008'
+  const salariesDateFinPrevisionnelle = 'S21.G00.40.010'
+  const salariesUniteMesure = 'S21.G00.40.011'
+  const salariesModaliteTemps = 'S21.G00.40.014'
+
 
   const remunerationHeader = [
     {id: 'mois',  title: 'Mois'},
