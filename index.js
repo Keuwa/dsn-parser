@@ -571,5 +571,7 @@ function writeRecords(path, data, header){
   csvWriter.writeRecords(data)
     .then(() => {
         console.log('...Done');
+    }).catch((e)=> {
+      console.log(e);
     });
 }
