@@ -12,5 +12,5 @@ Dans le terminal:
 
 ```
 npm install
-node index.js
+node index.js <SIREN>
 ```

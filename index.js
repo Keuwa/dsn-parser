@@ -4,10 +4,6 @@ var _ = require('lodash');
 var path = require('path');
 const fs = require('fs')
 
-const results = {
-  // 'versements': []
-};
-
 var argSiren; 
 var filesDateStart;
 var filesDateEnd;
@@ -96,9 +92,9 @@ if(argSiren === undefined){
   return 1
 }
 
-var dataDirectoryPath = path.join(__dirname, 'data', argSiren);
+var count = 0
 
-console.log(dataDirectoryPath)
+var dataDirectoryPath = path.join(__dirname, 'data', argSiren);
 
 fs.readdir(dataDirectoryPath, function (err, files) {
   //handling error
@@ -106,6 +102,8 @@ fs.readdir(dataDirectoryPath, function (err, files) {
       return console.log('Unable to scan directory: ' + err);
   } 
   files.forEach(function (file) {
+    count++
+    var results = {}
       fs.createReadStream(`data/${argSiren}/${file}`)
       .pipe(csv(['code', 'value']))
       .on('data', (data) => {
@@ -155,7 +153,6 @@ fs.readdir(dataDirectoryPath, function (err, files) {
          * BORDERAUX
          */
         else if(data['code'] == borderauxSiretOrga){
-          // console.log(testCount++) 
           if (typeof results[currentMonth][currentEntreprise][currentEtablissement]['borderaux'] === 'undefined'){
             results[currentMonth][currentEntreprise][currentEtablissement]['borderaux'] = []
           }
@@ -459,7 +456,6 @@ fs.readdir(dataDirectoryPath, function (err, files) {
 
     })
       .on('end', () => {
-        
       var versements = []
       var bordereaux = []
       var cotisationAgregees = []
@@ -475,7 +471,6 @@ fs.readdir(dataDirectoryPath, function (err, files) {
             versements = _.concat(versements, etablissement['versements'])
             bordereaux = _.concat(bordereaux, etablissement['borderaux'])
             cotisationAgregees = _.concat(cotisationAgregees, etablissement['cotisationAgregees'])
-            console.log(salaries)
             salaries = _.concat(salaries, etablissement['salaries'])
             remuneration = _.concat(remuneration, etablissement['remuneration'])
             baseAssujettie = _.concat(baseAssujettie, etablissement['baseAssujettie'])
@@ -484,6 +479,9 @@ fs.readdir(dataDirectoryPath, function (err, files) {
           })
         })
       })
+
+      console.log(results)
+
 
       const versementHeader = [
         {id: 'mois',  title: 'Mois'},
