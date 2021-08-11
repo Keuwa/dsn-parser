@@ -51,6 +51,7 @@ const salariesNatureContrat = 'S21.G00.40.007'
 const salariesNumeroContrat = 'S21.G00.40.009'
 const salariesHeuresReference = 'S21.G00.40.012'
 const salariesHeuresSalaries = 'S21.G00.40.013'
+const salariesMotifRecours = 'S21.G00.40.021'
 const salariesTauxAt = 'S21.G00.40.043'
 // ADDED 17/05/2021
 const salariesDateDebutContrat = 'S21.G00.40.001'
@@ -60,11 +61,11 @@ const salariesDateFinPrevisionnelle = 'S21.G00.40.010'
 const salariesUniteMesure = 'S21.G00.40.011'
 const salariesModaliteTemps = 'S21.G00.40.014'
 
-
 var currentSalariesNumeroSS = ''
 
 // 51 REMUNERATION
 const remunerationPeriode = 'S21.G00.51.001';
+const remunerationPeriodeFin = 'S21.G00.51.002';
 const remunerationNumeroContrat = 'S21.G00.51.010';
 const remunerationTypeBase = 'S21.G00.51.011';
 const remunerationMontantBase = 'S21.G00.51.013';
@@ -307,6 +308,11 @@ fs.readdir(dataDirectoryPath, function (err, files) {
 
           results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['modaliteTemps'] = data['value']
         }
+        else if(data['code'] == salariesMotifRecours) {
+          var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
+
+          results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['motifRecours'] = data['value']
+        }
 
         /**
          * END SALARIEs
@@ -334,6 +340,11 @@ fs.readdir(dataDirectoryPath, function (err, files) {
 
 
           results[currentMonth][currentEntreprise][currentEtablissement]['remuneration'][lastIndex]['numeroContrat'] = data['value']
+        }
+        else if(data['code'] == remunerationPeriodeFin) {
+          var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['remuneration'].length - 1
+
+          results[currentMonth][currentEntreprise][currentEtablissement]['remuneration'][lastIndex]['periodeFin'] = data['value']
         }
         else if(data['code'] == remunerationTypeBase) {
           var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['remuneration'].length - 1
@@ -514,6 +525,7 @@ fs.readdir(dataDirectoryPath, function (err, files) {
         {id: 'heuresReference', title: 'HeuresRéf'},
         {id: 'heuresSalaries', title: 'HeuresSal'},
         {id: 'tauxAt', title: 'Taux AT'},
+        {id: 'motifRecours', title: 'Taux AT'},
 
         {id: 'dateDebutContrat', title: 'DateDebutContrat'},
         {id: 'statut', title: 'Statut'},
@@ -523,20 +535,14 @@ fs.readdir(dataDirectoryPath, function (err, files) {
         {id: 'modaliteTemps', title: 'ModalitéTemps'},
       ]
 
-      const salariesDateDebutContrat = 'S21.G00.40.001'
-      const salariesSatut = 'S21.G00.40.002'
-      const salariesDispositif = 'S21.G00.40.008'
-      const salariesDateFinPrevisionnelle = 'S21.G00.40.010'
-      const salariesUniteMesure = 'S21.G00.40.011'
-      const salariesModaliteTemps = 'S21.G00.40.014'
-
 
       const remunerationHeader = [
         {id: 'mois',  title: 'Mois'},
         {id: 'siren', title: 'Siren'},
         {id: 'nic',   title: 'Nic'},
         {id: 'numeroSS', title: 'NuméroSS'},
-        {id: 'periode', title: 'Periode'},
+        {id: 'periode', title: 'Periode debut'},
+        {id: 'periodeFin', title: 'Periode fin'},
         {id: 'numeroContrat', title: 'NumeroContrat'},
         {id: 'typeBase', title: 'TypeBase'},
         {id: 'montantBase', title: 'MontantBase'},
