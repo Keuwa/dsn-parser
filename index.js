@@ -42,12 +42,15 @@ const cotisationMontantCotisation = 'S21.G00.23.005'
 const salariesNumeroSS = 'S21.G00.30.001'
 const salariesNom = 'S21.G00.30.002'
 const salariesPrenom = 'S21.G00.30.004'
+
 const salariesEmploie = 'S21.G00.40.006'
 const salariesNatureContrat = 'S21.G00.40.007'
 const salariesNumeroContrat = 'S21.G00.40.009'
 const salariesHeuresReference = 'S21.G00.40.012'
 const salariesHeuresSalaries = 'S21.G00.40.013'
+// ADDED 08/2021
 const salariesMotifRecours = 'S21.G00.40.021'
+// END ADDED 08/2021
 const salariesTauxAt = 'S21.G00.40.043'
 // ADDED 17/05/2021
 const salariesDateDebutContrat = 'S21.G00.40.001'
@@ -245,36 +248,6 @@ fs.readdir(dataDirectoryPath, function (err, files) {
 
           results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['prenom'] = data['value']
         }
-        else if(data['code'] === salariesEmploie) {
-          var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
-
-          results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['emploie'] = data['value']
-        }
-        else if(data['code'] == salariesNatureContrat) {
-          var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
-
-          results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['natureContrat'] = data['value']
-        }
-        else if(data['code'] == salariesNumeroContrat) {
-          var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
-
-          results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['numeroContrat'] = data['value']
-        }
-        else if(data['code'] == salariesHeuresReference) {
-          var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
-
-          results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['heuresReference'] = data['value']
-        }
-        else if(data['code'] == salariesHeuresSalaries) {
-          var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
-
-          results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['heuresSalaries'] = data['value']
-        }
-        else if(data['code'] == salariesTauxAt) {
-          var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
-
-          results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['tauxAt'] = data['value']
-        }
         else if(data['code'] == salariesDateDebutContrat) {
           var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
 
@@ -285,10 +258,25 @@ fs.readdir(dataDirectoryPath, function (err, files) {
 
           results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['statut'] = data['value']
         }
+        else if(data['code'] === salariesEmploie) {
+          var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
+
+          results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['emploie'] = data['value']
+        }
+        else if(data['code'] == salariesNatureContrat) {
+          var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
+
+          results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['natureContrat'] = data['value']
+        }
         else if(data['code'] == salariesDispositif) {
           var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
 
           results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['dispositif'] = data['value']
+        }
+        else if(data['code'] == salariesNumeroContrat) {
+          var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
+
+          results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['numeroContrat'] = data['value']
         }
         else if(data['code'] == salariesDateFinPrevisionnelle) {
           var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
@@ -300,6 +288,16 @@ fs.readdir(dataDirectoryPath, function (err, files) {
 
           results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['uniteMesure'] = data['value']
         }
+        else if(data['code'] == salariesHeuresReference) {
+          var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
+
+          results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['heuresReference'] = data['value']
+        }
+        else if(data['code'] == salariesHeuresSalaries) {
+          var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
+
+          results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['heuresSalaries'] = data['value']
+        }
         else if(data['code'] == salariesModaliteTemps) {
           var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
 
@@ -309,6 +307,11 @@ fs.readdir(dataDirectoryPath, function (err, files) {
           var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
 
           results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['motifRecours'] = data['value']
+        }
+        else if(data['code'] == salariesTauxAt) {
+          var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['salaries'].length - 1
+
+          results[currentMonth][currentEntreprise][currentEtablissement]['salaries'][lastIndex]['tauxAt'] = data['value']
         }
 
         /**
