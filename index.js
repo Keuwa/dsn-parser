@@ -517,23 +517,27 @@ fs.readdir(dataDirectoryPath, function (err, files) {
       ]
 
       const salariesHeader = [
+        {id: 'mois',  title: 'Mois'},
+        {id: 'siren', title: 'Siren'},
+        {id: 'nic',   title: 'Nic'},
+
         {id: 'numeroSS', title: 'NuméroSS'},
         {id: 'nom', title: 'Nom'},
         {id: 'prenom', title: 'Prénom'},
-        {id: 'emploie', title: 'Emploie'},
-        {id: 'natureContrat', title: 'NatureContrat'},
-        {id: 'numeroContrat', title: 'NumeroContrat'},
-        {id: 'heuresReference', title: 'HeuresRéf'},
-        {id: 'heuresSalaries', title: 'HeuresSal'},
-        {id: 'tauxAt', title: 'Taux AT'},
-        {id: 'motifRecours', title: 'Taux AT'},
-
+        
         {id: 'dateDebutContrat', title: 'DateDebutContrat'},
         {id: 'statut', title: 'Statut'},
+        {id: 'emploie', title: 'Emploie'},
+        {id: 'natureContrat', title: 'NatureContrat'},
         {id: 'dispositif', title: 'Dispositif'},
+        {id: 'numeroContrat', title: 'NumeroContrat'},
         {id: 'dateFinPrevisionnelle', title: 'DateFinPrevisionnelle'},
         {id: 'uniteMesure', title: 'UniteMesure'},
+        {id: 'heuresReference', title: 'HeuresRéf'},
+        {id: 'heuresSalaries', title: 'HeuresSal'},
+        {id: 'motifRecours', title: 'Taux AT'},
         {id: 'modaliteTemps', title: 'ModalitéTemps'},
+        {id: 'tauxAt', title: 'Taux AT'},
       ]
 
 
