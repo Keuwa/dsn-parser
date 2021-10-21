@@ -118,6 +118,7 @@ function parseFiles(files) {
   .pipe(csv(['code', 'value']))
   .on('data', (data) => {
     data['value'] = data['value'].replaceAll('\'', '');
+    data['value'] = data['value'].replaceAll('\r', '');
     
     if(data['code'] == month){
       results[data['value']] = {}
