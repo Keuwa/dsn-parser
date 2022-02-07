@@ -73,6 +73,18 @@ const remunerationMontantBase = 'S21.G00.51.013';
 
 var currentRemunerationNumeroContrat = ''
 
+// 52 PRIME
+const primeType = 'S21.G00.52.001'
+const primeMontant = 'S21.G00.52.002'
+const primePeriode = 'S21.G00.52.003'
+const primePeriodeFin = 'S21.G00.52.004'
+const primeNumeroContrat = 'S21.G00.52.006'
+
+// 54 AUTRE REVENU
+const autreRevenuType = 'S21.G00.54.001'
+const autreRevenuMontant = 'S21.G00.54.002'
+const autreRevenuPeriode = 'S21.G00.52.004'
+const autreRevenuPeriodeFin = 'S21.G00.52.003'
 
 // 78 BASE ASSUJETTIE
 const baseAssujettieCode = 'S21.G00.78.001';
@@ -367,6 +379,86 @@ function parseFiles(files) {
     /**
     * End remunération
     */
+
+    /**
+     * Prime
+     */
+    else if(data['code'] == primeType) {
+      if (typeof results[currentMonth][currentEntreprise][currentEtablissement]['prime'] === 'undefined'){
+        results[currentMonth][currentEntreprise][currentEtablissement]['prime'] = []
+      }
+      results[currentMonth][currentEntreprise][currentEtablissement]['prime'].push({
+        'mois': currentMonth,
+        'siren': currentEntreprise,
+        'nic': currentEtablissement,
+        'numeroSS': currentSalariesNumeroSS,
+        'type': data['value'],
+      })
+    }
+    else if(data['code'] == primeMontant) {
+      var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['prime'].length - 1
+            
+      results[currentMonth][currentEntreprise][currentEtablissement]['prime'][lastIndex]['montant'] = data['value']
+    }
+    else if(data['code'] == primePeriode) {
+      var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['prime'].length - 1
+            
+      results[currentMonth][currentEntreprise][currentEtablissement]['prime'][lastIndex]['periode'] = data['value']
+    }
+    else if(data['code'] == primePeriodeFin) {
+      var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['prime'].length - 1
+            
+      results[currentMonth][currentEntreprise][currentEtablissement]['prime'][lastIndex]['periodeFin'] = data['value']
+    }
+    else if(data['code'] == primeNumeroContrat) {
+      var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['prime'].length - 1
+            
+      results[currentMonth][currentEntreprise][currentEtablissement]['prime'][lastIndex]['numeroContrat'] = data['value']
+    }
+    /**
+     * End prime
+     */
+
+    /**
+     * Autre Revenu
+     */
+    else if(data['code'] == autreRevenuType) {
+      if (typeof results[currentMonth][currentEntreprise][currentEtablissement]['autreRevenu'] === 'undefined'){
+        results[currentMonth][currentEntreprise][currentEtablissement]['autreRevenu'] = []
+      }
+      results[currentMonth][currentEntreprise][currentEtablissement]['autreRevenu'].push({
+        'mois': currentMonth,
+        'siren': currentEntreprise,
+        'nic': currentEtablissement,
+        'numeroSS': currentSalariesNumeroSS,
+        'numeroContrat': currentRemunerationNumeroContrat,
+        'type': data['value'],
+      })
+    }
+
+    else if(data['code'] == autreRevenuMontant) {
+      var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['autreRevenu'].length - 1
+            
+      results[currentMonth][currentEntreprise][currentEtablissement]['autreRevenu'][lastIndex]['montant'] = data['value']
+    }
+    else if(data['code'] == autreRevenuPeriode) {
+      var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['autreRevenu'].length - 1
+            
+      results[currentMonth][currentEntreprise][currentEtablissement]['autreRevenu'][lastIndex]['periode'] = data['value']
+    }
+    else if(data['code'] == autreRevenuPeriodeFin) {
+      var lastIndex = results[currentMonth][currentEntreprise][currentEtablissement]['autreRevenu'].length - 1
+            
+      results[currentMonth][currentEntreprise][currentEtablissement]['autreRevenu'][lastIndex]['periodeFin'] = data['value']
+    }
+    /**
+     * Fin autre revenu
+     */
+
+
+
+
+
     
     /**
     * Base Asujetti
@@ -475,6 +567,8 @@ function parseFiles(files) {
     var baseAssujettie = []
     var composantBaseAssujettie = []
     var cotisationIndividuelle = []
+    var prime = []
+    var autreRevenu = []
     
     _.forEach(results, function(months){
       _.forEach(months, function(entreprise){
@@ -484,6 +578,8 @@ function parseFiles(files) {
           cotisationAgregees = _.concat(cotisationAgregees, etablissement['cotisationAgregees'])
           salaries = _.concat(salaries, etablissement['salaries'])
           remuneration = _.concat(remuneration, etablissement['remuneration'])
+          prime = _.concat(prime, etablissement['prime'])
+          autreRevenu = _.concat(autreRevenu, etablissement['autreRevenu'])
           baseAssujettie = _.concat(baseAssujettie, etablissement['baseAssujettie'])
           composantBaseAssujettie = _.concat(composantBaseAssujettie, etablissement['composantBaseAssujettie'])
           cotisationIndividuelle = _.concat(cotisationIndividuelle, etablissement['cotisationIndividuelle'])
@@ -560,6 +656,30 @@ function parseFiles(files) {
       {id: 'typeBase', title: 'TypeBase'},
       {id: 'montantBase', title: 'MontantBase'},
     ]
+
+    const primeHeader = [
+      {id: 'mois',  title: 'Mois'},
+      {id: 'siren', title: 'Siren'},
+      {id: 'nic',   title: 'Nic'},
+      {id: 'numeroSS', title: 'NuméroSS'},
+      {id: 'periode', title: 'Periode debut'},
+      {id: 'periodeFin', title: 'Periode fin'},
+      {id: 'numeroContrat', title: 'NumeroContrat'},
+      {id: 'type', title: 'Type'},
+      {id: 'montant', title: 'Montant'},
+    ]
+
+    const autreRevenuHeader = [
+      {id: 'mois',  title: 'Mois'},
+      {id: 'siren', title: 'Siren'},
+      {id: 'nic',   title: 'Nic'},
+      {id: 'numeroSS', title: 'NuméroSS'},
+      {id: 'periode', title: 'Periode debut'},
+      {id: 'periodeFin', title: 'Periode fin'},
+      {id: 'numeroContrat', title: 'NumeroContrat'},
+      {id: 'type', title: 'Type'},
+      {id: 'montant', title: 'Montant'},
+    ]
     
     const baseAssujettieHeader = [
       {id: 'mois',  title: 'Mois'},
@@ -611,6 +731,11 @@ function parseFiles(files) {
     writeRecords(`results/${argSiren}/` + currentEntreprise + '_' + today + '_cotisationAgregees.csv', cotisationAgregees, cotisationAgregeesHeader);
     writeRecords(`results/${argSiren}/` + currentEntreprise + '_' + today + '_salaries.csv', salaries, salariesHeader);
     writeRecords(`results/${argSiren}/` + currentEntreprise + '_' + today + '_remuneration.csv', remuneration, remunerationHeader);
+
+    writeRecords(`results/${argSiren}/` + currentEntreprise + '_' + today + '_prime.csv', prime, primeHeader);
+    writeRecords(`results/${argSiren}/` + currentEntreprise + '_' + today + '_autreRevenu.csv', autreRevenu, autreRevenuHeader);
+
+    
     writeRecords(`results/${argSiren}/` + currentEntreprise + '_' + today + '_baseAssujettie.csv', baseAssujettie, baseAssujettieHeader);
     writeRecords(`results/${argSiren}/` + currentEntreprise + '_' + today + '_composantBaseAssujettie.csv', composantBaseAssujettie, composantBaseAssujettieHeader);
     writeRecords(`results/${argSiren}/` + currentEntreprise + '_' + today + '_cotisationIndividuelle.csv', cotisationIndividuelle, cotisationIndividuelleHeader);
