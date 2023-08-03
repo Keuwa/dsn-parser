@@ -130,7 +130,7 @@ function parseFiles(files) {
   let lastDataCode = "";
   fs.createReadStream(`data/${argSiren}/${file}`)
     .pipe(csv(["code", "value"]))
-    .on("data", (data) => {
+    .on("data", (data, test) => {
       data["value"] = data["value"].replaceAll("'", "");
       data["value"] = data["value"].replaceAll("\r", "");
 
@@ -780,7 +780,7 @@ function parseFiles(files) {
           numeroSS: currentSalariesNumeroSS,
           numeroContrat: currentRemunerationNumeroContrat,
           periode: currentBaseAssujettiePeriode,
-          periodeFin: currentBaseAssujettiePeriodeFin,
+          finPeriode: currentBaseAssujettiePeriodeFin,
           codeCotisation: data["value"],
         });
       } else if (data["code"] == cotisationIndividuelleAssiette) {
@@ -878,6 +878,7 @@ function parseFiles(files) {
         { id: "nic", title: "Nic" },
         { id: "siretOrganisme", title: "CodeOrganisme" },
         { id: "periode", title: "Periode" },
+        { id: "finPeriode", title: "Periode fin" },
         { id: "ctp", title: "CTP" },
         { id: "assiette", title: "Type assiette" },
         { id: "taux", title: "Taux" },
