@@ -12,6 +12,9 @@ var filesDateEnd;
 
 var testCount = 0;
 
+// rubric error for finding error
+const 
+
 // général
 const month = "S20.G00.05.005"; //mont
 const entreprise = "S21.G00.06.001"; //siret
@@ -306,7 +309,7 @@ function parseFiles(files) {
          */
 
         if ("" === data["value"]) {
-          throw new Error("Numero de securité social vide");
+          throw new Error(`Numero de securité social vide etablissement ${currentEtablissement}, mois : ${currentMonth}`);
         }
 
         if (
@@ -332,7 +335,7 @@ function parseFiles(files) {
       } else if (data["code"] == salariesNom) {
         if (lastDataCode !== salariesNumeroSS) {
           throw new Error(
-            "Numero de securité social manquant pour " + data["value"]
+            `Numero de securité social vide nom: ${data["value"]} , etablissement: ${currentEtablissement}, mois: ${currentMonth}`)
           );
         }
         var lastIndex =
